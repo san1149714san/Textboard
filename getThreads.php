@@ -68,9 +68,9 @@
             echo "<span class='commentText'><p class='test'>$comment</p></span>";
             echo "</div>";
 
-
-            $threadComments = "SELECT date, id, comment FROM comments WHERE 
-              thread_id='$id' ORDER BY date ASC LIMIT 3";
+            $threadComments = "SELECT * FROM (SELECT * FROM (SELECT * FROM comments ORDER BY date DESC LIMIT 3) sub) test ORDER BY date ASC LIMIT 3";
+            // $threadComments = "SELECT date, id, comment FROM comments WHERE 
+            //   thread_id='$id' ORDER BY date DESC LIMIT 3";
 
             $comments = mysql_query($threadComments) or trigger_error("Error getting replies");
 
