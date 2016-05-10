@@ -20,6 +20,11 @@ body {
     color: #789922;
 }
 
+#delete {
+    top: 10px;
+    float: right;
+}
+
 #error {
     display: table-cell;
     text-align: center;

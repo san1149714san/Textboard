@@ -12,6 +12,15 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
   </head>
   <body>
+    <?php
+    if (isset($_SESSION['username'])) {
+      if ($_SESSION['username'] == "admin") {
+        echo "<form action='logout.php' method='post'>";
+        echo "<input type='submit' value='logout'>";
+        echo "</form>";
+      }
+    }
+    ?>
     <h1><a href="index.php">/prog/ - Programming</a></h1>
     <div id='submitForm'>
       <form action="postComment.php" method="post">
@@ -35,7 +44,7 @@
 
     </script>
 
-    <?php
+    <?php 
       if (isset($_GET['id'])) {
         if (getComments(intval($_GET['id'])) == false) {
           header('Location: 404.php');
