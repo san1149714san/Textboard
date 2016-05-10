@@ -22,6 +22,5 @@
     $result = mysql_query($query) or trigger_error("Error getting messages!");
   }
 
-
-  echo "Post successful!";
+  header("Location: postsuccess.php");
 ?>
