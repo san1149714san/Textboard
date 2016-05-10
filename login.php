@@ -29,8 +29,7 @@
             }
 
             //If the username is the same as the supplied username, and the password is the same.
-            if ($username == $dbusername && $password == $dbpassword) {
-                //Go to notes.
+            if ($username == $dbusername && password_verify($password, $dbpassword)) {
                 $_SESSION['username'] = $dbusername;
                 header("location: index.php");
             } else {
