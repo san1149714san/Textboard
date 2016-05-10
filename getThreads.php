@@ -10,11 +10,19 @@
 
         $result = mysql_query($query) or trigger_error("Error getting threads.");
 
+        $visited = array();
+        //As 
         while ($messages = mysql_fetch_array($result, MYSQLI_ASSOC)) {
             if ($messages['isThread'] != 1) {
-                printThreads($messages['thread_id']);
+                if (!in_array($messages['thread_id'], $visited)) {
+                    printThreads($messages['thread_id']);
+                    array_push($visited, $messages['thread_id']);
+                }
             } else {
-                printThreads($messages['id']);
+                if (!in_array($messages['id'], $visited)) {
+                    printThreads($messages['id']);
+                    array_push($visited, $messages['id']);
+                }
             }
           // if ($messages['isThread'] == 1) {
           //   $thread = $messages['thread_id'];
@@ -60,6 +68,7 @@
         }
     }
 
+    //Takes a thread ID, and prints the thread.
     function printThreads($id) {
         $query = "SELECT subject, date, id, thread_id, comment, isThread FROM comments WHERE id='$id'";
 
