@@ -5,10 +5,6 @@
 
     function cull() {
 
-        // $threadQuery = mysql_query("SELECT COUNT(isThread) AS total FROM comments WHERE isThread='$one';");
-        // $threadCount = mysql_result($threadQuery, 0);
-
-
         $threadComments = "SELECT date, id, comment FROM comments WHERE 
           isThread=1 ORDER BY date ASC ";
 
@@ -19,6 +15,7 @@
         while ($row = mysql_fetch_array($result) and $threadCount >= MAXTHREADS) {
             $id = $row['id'];
             $test = mysql_query("DELETE FROM comments WHERE id=$id") or print(mysql_error());
+            $test = mysql_query("DELETE FROM comments WHERE thread_id=$id") or print(mysql_error());
             $threadCount--;
         }
 
