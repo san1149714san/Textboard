@@ -1,6 +1,6 @@
 <?php
   include_once("connect.php");
-
+  include_once("cullOldThreads.php");
   //$comment = strip_tags(mysql_real_escape_string($_POST['comment']));
   $comment = nl2br(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8')); 
 
@@ -21,6 +21,6 @@
 
     $result = mysql_query($query) or trigger_error("Error getting messages!");
   }
-
+  cull();
   header("Location: postsuccess.php");
 ?>
