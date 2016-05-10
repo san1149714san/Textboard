@@ -9,6 +9,7 @@
   <head>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href='https://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
   </head>
   <body>
     <h1><a href="index.php">/prog/ - Programming</a></h1>
@@ -31,6 +32,7 @@
       function reply(replyID) {
         document.getElementById("commentBox").value += (">>" + replyID);
       }
+
     </script>
 
     <?php

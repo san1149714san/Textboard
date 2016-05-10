@@ -2,9 +2,6 @@
     require_once('connect.php');
 
     function getComments($id) {
-      global $dbc;
-
-
       $r = mysql_query("SELECT isThread, id FROM comments WHERE id='$id' AND isThread=1") or print("Error");
       if (mysql_num_rows($r) == 0) {
         return false;

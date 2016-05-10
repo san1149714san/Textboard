@@ -1,9 +1,11 @@
 <?php
     require_once('connect.php');
 
-    function getThreads() {
-        global $dbc;
+    function wrapGreentext($text) {
+        return "<span class='greentext'>$text</span>";
+    }
 
+    function getThreads() {
         $query = "SELECT subject, date, id, thread_id, comment, isThread FROM comments ORDER BY date DESC;";
 
         $result = mysql_query($query) or trigger_error("Error getting threads.");
@@ -24,8 +26,10 @@
             echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span><span class='date'>$date</span>";
             echo "<a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>";
             echo "<a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>";
-            echo "<span class='commentText'><p>$comment</p></span>";
+
+            echo "<span class='commentText'><p class='test'>$comment</p></span>";
             echo "</div>";
+
 
             $threadComments = "SELECT date, id, comment FROM comments WHERE 
               thread_id='$id' ORDER BY date ASC LIMIT 3";

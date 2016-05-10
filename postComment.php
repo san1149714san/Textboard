@@ -1,7 +1,8 @@
 <?php
-  include_once("config.php");
+  include_once("connect.php");
 
-  $comment = strip_tags(mysql_real_escape_string($_POST['comment']));
+  //$comment = strip_tags(mysql_real_escape_string($_POST['comment']));
+  $comment = nl2br(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8')); 
 
   if (isset($_POST['inThread'])) {
     echo "in thread";
