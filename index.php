@@ -37,6 +37,12 @@
       <input type="submit">
       </form>
     </div>
+    <?php
+      if (isset($_GET['id'])) {
+        echo "<a href='index.php'>[Return]</a>";
+      }
+    ?>
+    <hr>
     <script>
       function reply(replyID) {
         document.getElementById("commentBox").value += (">>" + replyID);

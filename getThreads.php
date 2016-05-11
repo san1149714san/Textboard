@@ -50,7 +50,6 @@
 
             $getReplies = mysql_query("SELECT COUNT(thread_id) AS total FROM comments WHERE thread_id=$id;");
             $replyCount = mysql_result($getReplies, 0);
-            echo "<hr>";
             echo "<div id='thread'>";
             echo "<div class='comment' id='mainPost'>";
             echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span><span class='date'>$date</span>";
@@ -68,7 +67,7 @@
             echo "<span class='commentText'><p class='test'>$comment</p></span>";
             echo "</div>";
 
-            $threadComments = "SELECT * FROM (SELECT * FROM (SELECT * FROM comments ORDER BY date DESC LIMIT 3) sub) test ORDER BY date ASC LIMIT 3";
+            $threadComments = "SELECT * FROM (SELECT * FROM (SELECT * FROM comments WHERE thread_id='$id' ORDER BY date DESC LIMIT 3) sub) test WHERE thread_id='$id' ORDER BY date ASC LIMIT 3";
             // $threadComments = "SELECT date, id, comment FROM comments WHERE 
             //   thread_id='$id' ORDER BY date DESC LIMIT 3";
 
@@ -97,6 +96,7 @@
             }
 
             echo "</div>";
+            echo "<hr>";
         }
 
     }
