@@ -44,26 +44,48 @@
 
             $pieces = explode("<br />", $comment);
 
-            $comment = implode(" <br /> ", wrapGreentext($pieces));
+            $comment = implode(" <br /> ", wrapComment($pieces));
 
             $getReplies = mysql_query("SELECT COUNT(thread_id) AS total FROM comments WHERE thread_id=$id;");
             $replyCount = mysql_result($getReplies, 0);
-            echo "<div id='thread'>";
-            echo "<div class='comment' id='mainPost'>";
-            echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span><span class='date'>$date</span>";
-            echo "<a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>";
+
+            $html = "
+                <section id='thread'>
+                    <section class='comment' id='mainPost'>
+                        <span id='subject'>$subject</span>
+                        <span class='name'>Anonymous</span>
+                        <span class='date'>$date</span>
+                        <a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>
+            ";
+
+            $adminForm = "
+                        <form action='delete.php' method='post'>
+                            <input type='hidden' name='toDelete' value='$id'>
+                            <input type='submit' value='delete'>
+                        </form>
+            ";
+            echo $html;
+            // echo "<section id='thread'>";
+            // echo "<div class='comment' id='mainPost'>";
+            // echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span><span class='date'>$date</span>";
+            // echo "<a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>";
             if (isset($_SESSION['username'])) {
                 if ($_SESSION['username'] == "admin") {
-                    echo "<form action='delete.php' method='post'>";
-                    echo "<input type='hidden' name='toDelete' value='$id'>";
-                    echo "<input type='submit' value='delete'>";
-                    echo "</form>";
+                    echo $adminForm;
                 }
             }
-            echo "<a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>";
 
-            echo "<span class='commentText'><p class='test'>$comment</p></span>";
-            echo "</div>";
+            $html = "
+                        <a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>
+                        <span class='commentText'><p class='test'>$comment</p></span>
+                    </section>
+            ";
+
+            echo $html;
+            // echo "<a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>";
+
+            // echo "<span class='commentText'><p class='test'>$comment</p></span>";
+            // echo "</div>";
 
             $threadComments = "SELECT * FROM (SELECT * FROM (SELECT * FROM comments WHERE thread_id='$id' ORDER BY date DESC LIMIT 3) sub) test WHERE thread_id='$id' ORDER BY date ASC LIMIT 3";
             // $threadComments = "SELECT date, id, comment FROM comments WHERE 
@@ -79,27 +101,55 @@
 
                 $pieces = explode("<br />", $comment);
                 //print_r($pieces);
-                $comment = implode(" <br /> ", wrapGreentext($pieces));
+                $comment = implode(" <br /> ", wrapComment($pieces));
 
-                echo "<div class='threadreply'>";
-                echo "<div class='comment'>";
-                echo "<span class='name'>Anonymous</span><span class='date'>$date</span>";
-                echo "<a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>";
+                $html = "
+                    <section class='threadreply'>
+                        <div class='comment'>
+                            <span class='name'>Anonymous</span><span class='date'>$date</span>
+                            <a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>
+                ";
+
+                echo $html;
+
+
+
+                $adminForm = "
+                            <form action='delete.php' method='post'>
+                                <input type='hidden' name='toDelete' value='$id'>
+                                <input type='submit' value='delete'>
+                            </form>
+                ";
+                // echo "<section class='threadreply'>";
+                // echo "<div class='comment'>";
+                // echo "<span class='name'>Anonymous</span><span class='date'>$date</span>";
+                // echo "<a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>";
                 if (isset($_SESSION['username'])) {
                     if ($_SESSION['username'] == "admin") {
-                        echo "<form action='delete.php' method='post'>";
-                        echo "<input type='hidden' name='toDelete' value='$id'>";
-                        echo "<input type='submit' value='delete'>";
-                        echo "</form>";
+                        echo $adminForm;
                     }
                 }
-                echo "<span class='commentText'><p>$comment</p></span>";
-                echo "</div>";
-                echo "</div>";
+
+                $html = "
+                            <span class='commentText'><p>$comment</p></span>
+                        </div>
+                    </section>
+                ";
+
+                echo $html;
+
+                // echo "<span class='commentText'><p>$comment</p></span>";
+                // echo "</div>";
+                // echo "</section>";
             }
 
-            echo "</div>";
-            echo "<hr>";
+            $html = "
+                </section>
+                
+                <hr>
+            ";
+
+            echo $html;
         }
 
     }

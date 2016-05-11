@@ -22,10 +22,10 @@
 
             $pieces = explode("<br />", $comment);
 
-            $comment = implode(" <br /> ", wrapGreentext($pieces));
+            $comment = implode(" <br /> ", wrapComment($pieces));
 
 
-            echo "<div class='threadComment'>";
+            echo "<section class='threadComment'>";
             if ($messageId == $id) {
                 echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span>";
             } else {
@@ -33,7 +33,7 @@
             }
             echo "<a name='$messageId' href='#$messageId' onclick='reply($messageId)'><span id='id'>No.$messageId</span></a>";
             echo "<br>$comment<br>";
-            echo "</div>";
+            echo "</section>";
         }
 
         return true;

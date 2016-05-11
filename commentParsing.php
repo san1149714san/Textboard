@@ -1,5 +1,5 @@
 <?php
-    function wrapGreentext($text) {
+    function wrapComment($text) {
         $test = $text;
 
         foreach($test as $key=>$value) {
@@ -34,12 +34,6 @@
         } else {
             return $text;
         }
-
-
-
-
-
-
     }
 
     function greenText($text) {

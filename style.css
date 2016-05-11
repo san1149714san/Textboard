@@ -3,6 +3,11 @@ h1 {
     text-align: center;
 }
 
+:target {
+    background-color: yellow;
+}
+
+
 body {
     font-family: arial,helvetica,sans-serif;
     font-size: 13px;
@@ -36,7 +41,7 @@ body {
 }
 
 .threadreply {
-margin-left: 30px;
+    margin-left: 5%;
 }
 
 .commentText {
