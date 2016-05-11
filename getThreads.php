@@ -2,38 +2,14 @@
     session_start();
 
     require_once('connect.php');
+    require_once('commentParsing.php');
 
-
-    function wrapGreentext($text) {
-        $test = $text;
-
-        foreach($test as $key=>$value) {
-            //echo substr($value, 0, 3);
-            if (substr($value, 0, 3) === "&gt") {
-                $test[$key] = wrapIt($value);
-            }
-        }
-
-        return $test;
-    }
-
-
-
-
-    function wrapIt($text) {
-        return "<span class='greentext'>$text</span>";
-    }
 
     function getThreads() {
         $query = "SELECT subject, date, id, thread_id, comment, isThread FROM comments ORDER BY date DESC;";
 
         $result = mysql_query($query) or trigger_error("Error getting threads.");
 
-        if (isset($_SESSION['username'])) {
-            if ($_SESSION['username'] == "admin") {
-                echo "ADMIN";
-            }
-        }
 
         $visited = array();
         //As 
@@ -99,7 +75,7 @@
                 $id = $replies['id'];
                 $comment = $replies['comment'];
                 $date = $replies['date'];
-
+                $thread_id = $replies['thread_id'];
 
                 $pieces = explode("<br />", $comment);
                 //print_r($pieces);
@@ -108,7 +84,7 @@
                 echo "<div class='threadreply'>";
                 echo "<div class='comment'>";
                 echo "<span class='name'>Anonymous</span><span class='date'>$date</span>";
-                echo "<a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>";
+                echo "<a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>";
                 if (isset($_SESSION['username'])) {
                     if ($_SESSION['username'] == "admin") {
                         echo "<form action='delete.php' method='post'>";

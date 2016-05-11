@@ -19,6 +19,8 @@
     function wrapIt($str) {
         return "<span class='greentext' style='color: #789922'>$str</span>";
     }
+
+    
     $stri = "Hello, how are you? <br> >I am good. You sure?";
 
     $pieces = explode(" <br> ", $stri);
