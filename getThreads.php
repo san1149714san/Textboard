@@ -3,7 +3,24 @@
 
     require_once('connect.php');
 
+
     function wrapGreentext($text) {
+        $test = $text;
+
+        foreach($test as $key=>$value) {
+            //echo substr($value, 0, 3);
+            if (substr($value, 0, 3) === "&gt") {
+                $test[$key] = wrapIt($value);
+            }
+        }
+
+        return $test;
+    }
+
+
+
+
+    function wrapIt($text) {
         return "<span class='greentext'>$text</span>";
     }
 
@@ -48,6 +65,11 @@
             $comment = $messages['comment'];
             $date = $messages['date'];
 
+
+            $pieces = explode("<br />", $comment);
+
+            $comment = implode(" <br /> ", wrapGreentext($pieces));
+
             $getReplies = mysql_query("SELECT COUNT(thread_id) AS total FROM comments WHERE thread_id=$id;");
             $replyCount = mysql_result($getReplies, 0);
             echo "<div id='thread'>";
@@ -77,6 +99,11 @@
                 $id = $replies['id'];
                 $comment = $replies['comment'];
                 $date = $replies['date'];
+
+
+                $pieces = explode("<br />", $comment);
+                //print_r($pieces);
+                $comment = implode(" <br /> ", wrapGreentext($pieces));
 
                 echo "<div class='threadreply'>";
                 echo "<div class='comment'>";
