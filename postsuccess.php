@@ -7,7 +7,7 @@
   <body>
     <h1>POST SUCCESSFUL</h1>
     <?php
-      header("refresh:3; url=index.php");
+      header("refresh:2; url=index.php");
     ?>
   </body>
 </html>

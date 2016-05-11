@@ -30,7 +30,7 @@
 
     //Takes a thread ID, and prints the thread.
     function printThreads($id) {
-        $query = "SELECT subject, date, id, thread_id, comment, isThread FROM comments WHERE id='$id'";
+        $query = "SELECT subject, date, id, thread_id, comment, isThread, name FROM comments WHERE id='$id'";
 
         $result = mysql_query($query) or trigger_error("Error getting threads.");
 
@@ -40,7 +40,7 @@
             $id = $messages['id'];
             $comment = $messages['comment'];
             $date = $messages['date'];
-
+            $name = $messages['name'];
 
             $pieces = explode("<br />", $comment);
 
@@ -53,7 +53,7 @@
                 <section id='thread'>
                     <section class='comment' id='mainPost'>
                         <span id='subject'>$subject</span>
-                        <span class='name'>Anonymous</span>
+                        <span class='name'>$name</span>
                         <span class='date'>$date</span>
                         <a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>
             ";
@@ -65,10 +65,7 @@
                         </form>
             ";
             echo $html;
-            // echo "<section id='thread'>";
-            // echo "<div class='comment' id='mainPost'>";
-            // echo "<span id='subject'>$subject</span><span class='name'>Anonymous</span><span class='date'>$date</span>";
-            // echo "<a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>";
+
             if (isset($_SESSION['username'])) {
                 if ($_SESSION['username'] == "admin") {
                     echo $adminForm;
@@ -82,10 +79,6 @@
             ";
 
             echo $html;
-            // echo "<a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>";
-
-            // echo "<span class='commentText'><p class='test'>$comment</p></span>";
-            // echo "</div>";
 
             $threadComments = "SELECT * FROM (SELECT * FROM (SELECT * FROM comments WHERE thread_id='$id' ORDER BY date DESC LIMIT 3) sub) test WHERE thread_id='$id' ORDER BY date ASC LIMIT 3";
             // $threadComments = "SELECT date, id, comment FROM comments WHERE 
@@ -98,6 +91,8 @@
                 $comment = $replies['comment'];
                 $date = $replies['date'];
                 $thread_id = $replies['thread_id'];
+                $name = $replies['name'];
+
 
                 $pieces = explode("<br />", $comment);
                 //print_r($pieces);
@@ -106,7 +101,7 @@
                 $html = "
                     <section class='threadreply'>
                         <div class='comment'>
-                            <span class='name'>Anonymous</span><span class='date'>$date</span>
+                            <span class='name'>$name</span><span class='date'>$date</span>
                             <a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>
                 ";
 
@@ -120,10 +115,7 @@
                                 <input type='submit' value='delete'>
                             </form>
                 ";
-                // echo "<section class='threadreply'>";
-                // echo "<div class='comment'>";
-                // echo "<span class='name'>Anonymous</span><span class='date'>$date</span>";
-                // echo "<a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>";
+
                 if (isset($_SESSION['username'])) {
                     if ($_SESSION['username'] == "admin") {
                         echo $adminForm;
@@ -138,14 +130,10 @@
 
                 echo $html;
 
-                // echo "<span class='commentText'><p>$comment</p></span>";
-                // echo "</div>";
-                // echo "</section>";
             }
 
             $html = "
                 </section>
-                
                 <hr>
             ";
 
