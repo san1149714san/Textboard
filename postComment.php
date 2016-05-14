@@ -28,9 +28,9 @@
 
 
   if (isset($_SESSION['thread_id'])) {
-    $name = $_POST['name'];
+    $name = mysql_real_escape_string($_POST['name']);
     if ($_SESSION['thread_id'] == -1) {
-       $subject = strip_tags(mysql_real_escape_string($_POST['subject']));
+       $subject = mysql_real_escape_string(strip_tags(mysql_real_escape_string($_POST['subject'])));
 
       if (strlen($subject) <= 0) {
         echo "Need a subject.";
@@ -63,21 +63,6 @@
 
   } 
 
-  // else {
-  //   $subject = strip_tags(mysql_real_escape_string($_POST['subject']));
 
-  //   if (strlen($subject) <= 0) {
-  //     echo "Need a subject.";
-  //     header("refresh:2; url=index.php");
-  //     die();
-  //   }
-
-  //   $query = "INSERT INTO comments (subject, comment, isThread, date, name) VALUES 
-  //   ('$subject','$comment', 1, NOW(), '$name');";
-
-  //   session_destroy();
-
-  //   $result = mysql_query($query) or trigger_error("Error inserting comment.");
-  // }
   header("Location: postsuccess.php");
 ?>

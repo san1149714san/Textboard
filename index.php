@@ -26,7 +26,7 @@
 	}
 	?>
 		<h1>
-		<a href="index.php">/fuck/ - my shit up.</a></h1>
+		<a href="index.php">/test/ - Test board.</a></h1>
 		<div id='submitForm'>
 		  	<form action="postComment.php" method="post">
 		  	<?php
