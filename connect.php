@@ -1,13 +1,10 @@
 <?php
-    DEFINE ("DBUSER", "mysqladm");
-    DEFINE ("DBPW", "password");
-    DEFINE ("DBHOST", "localhost");
-    DEFINE ("DBNAME", "messages");
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "textboard";
 
-    if ($dbc = mysql_connect(DBHOST, DBUSER, DBPW)) {
-        if (!mysql_select_db(DBNAME)) {
-            trigger_error("Database could not be selected " . mysql_error);
-            exit();
-        }
-    }
+
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ?>

@@ -58,14 +58,20 @@
 
 		<?php 
 			if (isset($_GET['id'])) {
-		  	//If we can't get any comments for this id, then we're not in a thread.
-				if (getComments(intval($_GET['id'])) == false) {
+				$temp = new CommentHandler($conn);
 
+		  		//If we can't get any comments for this id, then we're not in a thread.
+				if ($temp->getComments(intval($_GET['id'])) == false) {
 				 	header('Location: 404.php');
 				}
 			} else {
 				//We're on the front page, get the latest threads.
-				getThreads();
+				$temp = new ThreadHandler($conn);
+				$threads = $temp->getThreads();
+
+				var_dump($threads);
+
+				//getThreads();
 			}
 		?>
 	</body>
