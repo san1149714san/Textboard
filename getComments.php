@@ -1,14 +1,20 @@
 <?php
     require_once('connect.php');
     require_once('commentParsing.php');
+    require_once('Parsedown.php');
 
 
     class CommentHandler {
         function __construct($db) {
             $this->conn = $db;
+            $this->parsedown = new Parsedown();
         }
 
         function addComment($name, $subject, $comment, $thread_id) {
+            if ($name == "") {
+                $name = "Anonymous";
+            }
+
             if ($thread_id == -1) {
                 $date = new DateTime();
                 $result = $date->format('Y-m-d H:i:s');
@@ -50,10 +56,18 @@
 
             $comments = $statement->fetchAll();
 
+            $html = "
+                <div class='list-group'>";
+
+            echo $html;
             foreach ($comments as $messages) {
                 $subject = $messages['subject'];
                 $messageId = $messages['id'];
+
                 $comment = $messages['comment'];
+                $Parsedown = new Parsedown();
+                $comment = $this->parsedown->text($comment);
+
                 $thread_id = $messages['thread_id'];
                 $name = $messages['name'];
                 $date = $messages['date'];
@@ -64,31 +78,28 @@
                 //Implode the array that has now been wrapped.
                 $comment = implode(" <br /> ", wrapComment($pieces));
 
-                $html = "
-                    <section class='threadComment'>";
-
-                echo $html;
                 //echo "<section class='threadComment'>";
                 if ($messageId == $id) {
                     $html = "
-                        <span id='subject'>$subject</span><span class='name'>$name</span><span class='date'>$date</span>";
+                    <a onclick='reply($messageId)' class='list-group-item list-group-item-action thread'>
+                        <h5 class='list-group-item-heading '><span class='subject'>$subject</span>| <span class='name'>$name</span> | $date | No.$messageId </h5>";
 
                     echo $html;
                 } else {
                     $html = "
-                        <span class='name'>$name</span><span class='date'>$date</span>";
+                    <a onclick='reply($messageId)' class='list-group-item list-group-item-action'>
+                        <h5 class='list-group-item-heading'><span class='name'>$name</span> | $date | No.$messageId</h5>";
                     echo $html;
                 }
 
                 $html = "
-                        <a name='$messageId' href='#$messageId' onclick='reply($messageId)'><span id='id'>No.$messageId</span></a>
-                        <p class='test'>$comment</p>
-                    </section>
+                        <p class='list-group-item-text'>$comment</p>
+                    </a>
                 ";
-
                 echo $html;                
             }
 
+            echo "</div>";
             return true;
         }        
     }

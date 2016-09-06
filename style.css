@@ -1,4 +1,4 @@
-h1 {
+#title {
     font-family: 'Exo 2', sans-serif;
     text-align: center;
 }
@@ -11,15 +11,9 @@ h1 {
 body {
     font-family: arial,helvetica,sans-serif;
     font-size: 13px;
-    background-color: #EEF2FF; 
+    background-color: #F5F5F5; 
 }
 
-#submitForm {
-    background-color: #DCE0F7;
-    padding-left: 20px;
-    width: 200px;
-    margin: 0 auto;
-}
 
 .greentext {
     color: #789922;
@@ -40,9 +34,9 @@ body {
     height: 100px;
 }
 
-.threadreply {
+/*.threadreply {
     margin-left: 5%;
-}
+}*/
 
 .commentText {
     margin: 10px;
@@ -50,7 +44,7 @@ body {
     width: inherit;
 }
 
-#subject {
+.subject {
     padding-right: 10px;
     color: #0F0C5D;
     font-weight: bold;
@@ -67,6 +61,7 @@ body {
 
 #id {
     padding-left: 10px;
+    float: right;
 }
 
 .name {
@@ -75,35 +70,63 @@ body {
     color: #117743;
 }
 
-#thread {
+/*#thread {
     min-width: 30%;
     display: inline-table;
     padding: 10px;
-}
+}*/
+
 
 .threadComment {
     word-wrap: break-word;
     clear: left;
     float: left;
-    background-color: #D6DAF0;
-    border-right: 2px solid #A5B6CF;
-    border-bottom: 2px solid #A5B6CF;
-    margin-top: 5px;
+    background-color: rgba(216, 216 , 216,.15);
+    border: 1px solid rgba(86,61,124,.2);
     padding-top: 5px;
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 5px;
 }
 
+.badge {
+    float: right;
+}
 
-.comment {
-    word-wrap: break-word;
-    float: left;
-    clear: left;
-    max-width: 500px;
-    background-color: #D6DAF0;
-    border-right: 2px solid #A5B6CF;
-    border-bottom: 2px solid #A5B6CF;
-    margin-top: 5px;
-    padding: 10px;
+
+
+.thread {
+    background-color: rgba(216, 216 , 216, .5) !important;
+}
+
+
+
+.list-group {
+    width: 100%;
+}
+
+img {
+    max-height: 40%;
+    max-width: 100%;
+}   
+
+@media (min-width: 750px) {
+    .list-group-item {
+        margin-left: 20px;
+        width: 100%;
+    }
+
+    .list-group {
+        width: 40%;
+        margin: 0 auto;
+    }
+
+    #submitForm {
+        width: 30%;
+        margin: 0 auto;
+    }
+}
+
+p {
+  white-space: pre-wrap;
 }

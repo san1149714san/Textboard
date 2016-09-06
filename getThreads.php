@@ -3,11 +3,13 @@
 
     require_once('connect.php');
     require_once('commentParsing.php');
+    require_once('Parsedown.php');
 
 
     class ThreadHandler {
         function __construct($db) {
             $this->conn = $db;
+            $this->parsedown = new Parsedown();
         }
 
 
@@ -49,6 +51,7 @@
                 $subject = $messages['subject'];
                 $id = $messages['id'];
                 $comment = $messages['comment'];
+                $comment = $this->parsedown->text($comment);
                 $date = $messages['date'];
                 $name = $messages['name'];
 
@@ -66,12 +69,9 @@
                 // $replyCount = mysql_result($getReplies, 0);
 
                 $html = "
-                    <section id='thread'>
-                        <section class='comment' id='mainPost'>
-                            <span id='subject'>$subject</span>
-                            <span class='name'>$name</span>
-                            <span class='date'>$date</span>
-                            <a name='$id' href='index.php?id=$id'><span id='id'>No.$id</span></a>
+                    <div class='list-group'>
+                        <a href='index.php?id=$id' class='list-group-item list-group-item-action thread'>
+                            <h5 class='list-group-item-heading'><span class='subject'>$subject</span> | <span class='name'>$name</span> | $date | <span class='badge'>$replyCount</span></h5>
                 ";
 
                 $adminForm = "
@@ -89,9 +89,8 @@
                 }
 
                 $html = "
-                            <a id='link' href='index.php?id=$id'>Reply ($replyCount)</a>
-                            <span class='commentText'><p class='test'>$comment</p></span>
-                        </section>
+                            <p class='list-group-item-text'>$comment</p>
+                        </a>
                 ";
 
                 echo $html;
@@ -105,6 +104,8 @@
                 foreach ($comments as $replies) {
                     $id = $replies['id'];
                     $comment = $replies['comment'];
+                    $comment = $this->parsedown->text($comment);
+
                     $date = $replies['date'];
                     $thread_id = $replies['thread_id'];
                     $name = $replies['name'];
@@ -115,10 +116,8 @@
                     $comment = implode(" <br /> ", wrapComment($pieces));
 
                     $html = "
-                        <section class='threadreply'>
-                            <div class='comment'>
-                                <span class='name'>$name</span><span class='date'>$date</span>
-                                <a name='$id' href='index.php?id=$thread_id#$id'><span id='id'>No.$id</span></a>
+                        <a href='index.php?id=$thread_id#$id' class='list-group-item list-group-item-action'>
+                            <h5 class='list-group-item-heading'><span class='name'>$name</span> | $date | No.$id</h5>
                     ";
 
                     echo $html;
@@ -139,20 +138,17 @@
                     }
 
                     $html = "
-                                <span class='commentText'><p>$comment</p></span>
-                            </div>
-                        </section>
+                            <p class='list-group-item-text'>$comment</p>
+                        </a>
                     ";
 
                     echo $html;
-
-
                 }
 
 
+
                 $html = "
-                    </section>
-                    <hr>
+                    </div>
                 ";
 
                 echo $html;
